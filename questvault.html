@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuestVault — Study smarter. Walk in ready.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,500&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F3F1EA;
+    --ink:#161A16;
+    --lime:#C6F135;
+    --orange:#E8552A;
+    --forest:#3D5C4E;
+    --gray:#6B6F68;
+    --card:#FDFCF8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+  }
+  a{color:inherit; text-decoration:none;}
+  .label{
+    font-family:'Space Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+  }
+  .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--orange);
+    display:inline-block;
+  }
+
+  /* ===== HEADER ===== */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 60px;
+    border-top:3px solid var(--ink);
+  }
+  .logo{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.15rem; }
+  .logo-badge{
+    width:34px; height:34px;
+    background:var(--ink);
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--lime);
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.15rem;
+  }
+  nav{ display:flex; align-items:center; gap:36px; }
+  nav .navlinks{ display:flex; gap:30px; font-size:0.92rem; }
+  .btn{
+    padding:12px 22px;
+    border-radius:30px;
+    font-weight:700;
+    font-size:0.9rem;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    border:none;
+  }
+  .btn-dark{ background:var(--ink); color:var(--cream); }
+  .btn-lime{ background:var(--lime); color:var(--ink); }
+  .btn-lime:hover, .btn-dark:hover{ opacity:0.88; }
+
+  /* ===== HERO ===== */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:40px;
+    padding:70px 60px 100px;
+    max-width:1400px;
+    margin:0 auto;
+  }
+  .hero-eyebrow{ display:flex; align-items:center; gap:8px; color:var(--gray); margin-bottom:22px; }
+  .hero h1{
+    font-size:clamp(2.6rem, 5vw, 4.4rem);
+    line-height:1.02;
+    letter-spacing:-0.01em;
+    font-weight:700;
+  }
+  .hero h1 .accent{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    color:var(--forest);
+    display:block;
+  }
+  .hero p{
+    margin-top:26px;
+    max-width:46ch;
+    color:var(--gray);
+    font-size:1.05rem;
+    line-height:1.55;
+  }
+  .hero-ctas{ margin-top:34px; display:flex; align-items:center; gap:26px; }
+  .link-arrow{ font-weight:600; font-size:0.92rem; }
+
+  .hero-visual{ position:relative; display:flex; justify-content:center; align-items:center; min-height:420px; }
+  .blob{ position:absolute; border-radius:50%; }
+  .blob-orange{ width:280px; height:280px; background:var(--orange); left:6%; top:38%; }
+  .blob-lime{ width:340px; height:340px; background:var(--lime); right:2%; top:18%; }
+  .paper-stack{ position:relative; z-index:2; }
+  .paper{
+    width:280px; height:340px;
+    background:var(--card);
+    border-radius:6px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.18);
+    position:relative;
+  }
+  .paper.back{ position:absolute; top:14px; left:20px; transform:rotate(4deg); opacity:0.9; z-index:1;}
+  .paper.front{ position:relative; z-index:2; padding:26px; display:flex; flex-direction:column; }
+  .paper-meta{ display:flex; justify-content:space-between; font-family:'Space Mono', monospace; font-size:0.7rem; color:var(--gray); }
+  .paper-title{ font-family:'Fraunces', serif; font-weight:600; font-size:1.5rem; margin-top:28px; line-height:1.15; }
+  .paper-line{ height:6px; background:#E7E4DA; border-radius:3px; margin-top:26px; }
+  .paper-line.short{ width:70%; }
+  .paper-x{
+    margin-top:auto;
+    align-self:center;
+    width:90px; height:90px;
+    border:2px solid var(--ink);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .paper-x::before, .paper-x::after{
+    content:''; position:absolute; width:70%; height:2px; background:var(--ink);
+  }
+  .paper-x::before{ transform:rotate(45deg); }
+  .paper-x::after{ transform:rotate(-45deg); }
+
+  /* ===== MARQUEE ===== */
+  .marquee-strip{
+    background:var(--ink);
+    overflow:hidden;
+    border-top:1px solid rgba(255,255,255,0.1);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .marquee-track{
+    display:flex;
+    gap:36px;
+    white-space:nowrap;
+    padding:14px 0;
+    animation:scroll 22s linear infinite;
+    width:max-content;
+  }
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  .marquee-track span{
+    color:var(--gray);
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    display:flex; align-items:center; gap:36px;
+  }
+  .marquee-track .plus{ color:var(--orange); }
+
+  /* ===== HOW IT WORKS ===== */
+  .works{ background:var(--ink); color:var(--cream); padding:80px 60px 100px; }
+  .works-top{ display:flex; justify-content:space-between; align-items:flex-end; gap:40px; max-width:1300px; margin:0 auto 50px; }
+  .works-top h2{ font-size:clamp(2rem, 3.6vw, 2.8rem); font-weight:700; max-width:14ch; }
+  .works-top p{ color:#A9AFA6; max-width:34ch; font-size:0.95rem; line-height:1.5; }
+  .steps{ display:grid; grid-template-columns:repeat(3, 1fr); gap:0; max-width:1300px; margin:0 auto; border-top:1px solid rgba(255,255,255,0.15); }
+  .step{ padding:26px 30px 0; position:relative; }
+  .step:not(:first-child){ border-left:1px solid rgba(255,255,255,0.15); }
+  .step-num{ font-family:'Space Mono', monospace; color:var(--lime); font-size:0.8rem; letter-spacing:0.08em; }
+  .step-arrow{ position:absolute; top:-11px; right:-11px; color:var(--orange); font-size:1.1rem; }
+  .step h3{ margin-top:16px; font-size:1.2rem; font-weight:700; }
+  .step p{ margin-top:10px; color:#A9AFA6; font-size:0.9rem; line-height:1.5; max-width:32ch; }
+
+  /* ===== LIBRARY ===== */
+  .library{ padding:90px 60px; max-width:1300px; margin:0 auto; }
+  .library h2{ font-size:1.9rem; font-weight:700; margin-bottom:30px; }
+  .searchbar{
+    display:flex; align-items:center; gap:12px;
+    background:var(--card); border:1px solid #E3E0D6;
+    border-radius:14px; padding:16px 20px; margin-bottom:20px;
+  }
+  .searchbar input{
+    border:none; outline:none; background:transparent;
+    font-family:inherit; font-size:0.95rem; width:100%; color:var(--ink);
+  }
+  .filters{ display:flex; gap:10px; margin-bottom:40px; flex-wrap:wrap; }
+  .filter{
+    padding:10px 18px; border-radius:30px; font-size:0.85rem; font-weight:600;
+    border:1px solid #DEDBD0; cursor:pointer; background:transparent;
+  }
+  .filter.active{ background:var(--ink); color:var(--cream); border-color:var(--ink); }
+
+  .card-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  .qcard{
+    background:var(--card); border:1px solid #E9E6DB; border-radius:16px;
+    padding:22px; display:flex; flex-direction:column; gap:14px;
+  }
+  .qcard-top{ display:flex; justify-content:space-between; align-items:center; }
+  .code-pill{ background:#EDEAE0; font-family:'Space Mono', monospace; font-size:0.72rem; padding:5px 10px; border-radius:6px; }
+  .dl-btn{
+    width:34px; height:34px; border-radius:8px; background:var(--lime);
+    display:flex; align-items:center; justify-content:center; border:none; cursor:pointer;
+  }
+  .qcard h4{ font-size:1.05rem; font-weight:700; }
+  .qcard .dept{ color:var(--gray); font-size:0.85rem; margin-top:-8px; }
+  .qcard-foot{ display:flex; justify-content:space-between; font-size:0.78rem; color:var(--gray); border-top:1px dashed #E3E0D6; padding-top:12px; }
+  .qcard-foot .demo{ color:var(--orange); font-weight:700; }
+
+  /* ===== ADMIN LOGIN ===== */
+  .admin{ display:grid; grid-template-columns:1fr 1fr; min-height:640px; border-top:3px solid var(--ink); }
+  .admin-left{
+    background:var(--ink); color:var(--cream);
+    padding:60px; position:relative; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .admin-left h2{ font-size:2.2rem; font-weight:700; max-width:10ch; line-height:1.08; }
+  .admin-left p{ color:#A9AFA6; max-width:30ch; margin-top:20px; line-height:1.5; }
+  .admin-circle{
+    position:absolute; width:340px; height:340px; border-radius:50%;
+    background:var(--lime); bottom:-140px; right:-100px;
+  }
+  .admin-tag{ font-family:'Space Mono', monospace; font-size:0.72rem; letter-spacing:0.1em; position:relative; z-index:2; }
+
+  .admin-right{ padding:70px 80px; display:flex; flex-direction:column; justify-content:center; max-width:520px; }
+  .admin-right .hero-eyebrow{ margin-bottom:16px; }
+  .admin-right h2{ font-size:2rem; font-weight:700; }
+  .admin-right > p{ color:var(--gray); margin-top:10px; margin-bottom:34px; }
+  .field{ margin-bottom:20px; }
+  .field-label{ display:flex; justify-content:space-between; margin-bottom:8px; }
+  .field-label .label{ color:var(--gray); }
+  .field-label a{ font-size:0.8rem; font-weight:700; color:var(--forest); }
+  .field input{
+    width:100%; padding:14px 16px; border-radius:10px;
+    border:1.5px solid var(--ink); font-family:inherit; font-size:0.95rem; outline:none;
+  }
+  .admin-right .btn-dark{ width:100%; justify-content:center; margin-top:10px; padding:16px; font-size:0.95rem; }
+  .admin-foot{ text-align:center; margin-top:22px; font-size:0.85rem; color:var(--gray); }
+  .admin-foot a{ color:var(--forest); font-weight:700; }
+
+  @media (max-width: 900px){
+    header, .hero, .works, .library{ padding-left:24px; padding-right:24px; }
+    .hero, .admin{ grid-template-columns:1fr; }
+    nav .navlinks{ display:none; }
+    .card-grid{ grid-template-columns:1fr; }
+    .steps{ grid-template-columns:1fr; }
+    .step:not(:first-child){ border-left:none; border-top:1px solid rgba(255,255,255,0.15); padding-top:26px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-badge">q</div>
+    QuestVault.
+  </div>
+  <nav>
+    <div class="navlinks">
+      <a href="#library">Question library</a>
+      <a href="#works">How it works</a>
+    </div>
+    <a href="#admin" class="btn btn-dark">Admin portal ↗</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow label"><span class="dot"></span> Computer Engineering study archive</div>
+    <h1>Study smarter.<span class="accent">Walk in ready.</span></h1>
+    <p>Past questions for Computer Engineering students, neatly organised by course and year. No accounts, no friction — just download and get to work.</p>
+    <div class="hero-ctas">
+      <a href="#library" class="btn btn-lime">Browse questions ↓</a>
+      <a href="#works" class="link-arrow">How it works →</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="blob blob-orange"></div>
+    <div class="blob blob-lime"></div>
+    <div class="paper-stack">
+      <div class="paper back"></div>
+      <div class="paper front">
+        <div class="paper-meta"><span>CTE 302 · 2024</span><span>PAGE 1/2</span></div>
+        <div class="paper-title">Digital Electronics</div>
+        <div class="paper-line"></div>
+        <div class="paper-line short"></div>
+        <div class="paper-x"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <div class="marquee-track" id="marquee"></div>
+</div>
+
+<section class="works" id="works">
+  <div class="works-top">
+    <h2>How QuestVault works</h2>
+    <p>Everything you need to find and download the right past question, without creating an account.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01 / FIND</div>
+      <div class="step-arrow">→</div>
+      <h3>Search your course</h3>
+      <p>Enter a CTE course code, course name, or topic to find the papers relevant to your exam.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02 / CHOOSE</div>
+      <div class="step-arrow">→</div>
+      <h3>Pick a paper</h3>
+      <p>Browse available exam sessions and select the past question you want to practise with.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03 / DOWNLOAD</div>
+      <h3>Study with confidence</h3>
+      <p>Download the PDF instantly and focus your preparation on the questions that matter.</p>
+    </div>
+  </div>
+</section>
+
+<section class="library" id="library">
+  <h2>Fresh from the vault</h2>
+  <div class="searchbar">
+    🔍 <input type="text" placeholder="Search by course name, code, or topic..." />
+  </div>
+  <div class="filters">
+    <button class="filter active">All courses</button>
+    <button class="filter">Hardware</button>
+    <button class="filter">Software</button>
+    <button class="filter">Networks</button>
+    <button class="filter">Mathematics</button>
+  </div>
+  <div class="card-grid" id="cardGrid"></div>
+</section>
+
+<section class="admin" id="admin">
+  <div class="admin-left">
+    <div>
+      <h2>Keep the vault moving forward.</h2>
+      <p>Administrator access keeps the past-question archive complete, accurate and useful for every student.</p>
+    </div>
+    <div class="admin-tag">STUDENT ACCESS IS ALWAYS FREE</div>
+    <div class="admin-circle"></div>
+  </div>
+  <div class="admin-right">
+    <div class="hero-eyebrow label"><span class="dot"></span> Admin access</div>
+    <h2>Welcome back</h2>
+    <p>Sign in to manage the question vault.</p>
+    <div class="field">
+      <div class="field-label"><span class="label">Email address</span></div>
+      <input type="email" placeholder="admin@questvault.edu" />
+    </div>
+    <div class="field">
+      <div class="field-label"><span class="label">Password</span><a href="#">Forgot password?</a></div>
+      <input type="password" placeholder="Enter your password" />
+    </div>
+    <button class="btn btn-dark">Sign in to admin portal →</button>
+    <div class="admin-foot">New administrator? <a href="#">Create an account</a></div>
+  </div>
+</section>
+
+<script>
+  const tags = ["COMPUTER ENGINEERING","HARDWARE SYSTEMS","SOFTWARE SYSTEMS","DIGITAL ELECTRONICS","COMPUTER ENGINEERING","HARDWARE SYSTEMS"];
+  const marquee = document.getElementById('marquee');
+  for(let r=0; r<2; r++){
+    tags.forEach(t=>{
+      const s = document.createElement('span');
+      s.innerHTML = `${t} <span class="plus">✦</span>`;
+      marquee.appendChild(s);
+    });
+  }
+
+  const courses = [
+    {code:"CTE 304", title:"Digital Systems Design", dept:"Computer Engineering", year:"2024/25"},
+    {code:"CTE 412", title:"Computer Networks", dept:"Computer Engineering", year:"2024/25"},
+    {code:"CTE 302", title:"Microprocessor Systems", dept:"Computer Engineering", year:"2023/24"},
+    {code:"CTE 406", title:"Embedded Systems Design", dept:"Computer Engineering", year:"2024/25"},
+    {code:"MTH 302", title:"Engineering Mathematics III", dept:"Computer Engineering", year:"2023/24"},
+    {code:"CTE 310", title:"Data Structures & Algorithms", dept:"Computer Engineering", year:"2024/25"},
+  ];
+  const grid = document.getElementById('cardGrid');
+  courses.forEach(c=>{
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.innerHTML = `
+      <div class="qcard-top">
+        <span class="code-pill">${c.code}</span>
+        <button class="dl-btn" aria-label="Download">↓</button>
+      </div>
+      <div>
+        <h4>${c.title}</h4>
+        <div class="dept">${c.dept}</div>
+      </div>
+      <div class="qcard-foot"><span>${c.year}</span><span class="demo">Demo paper</span></div>
+    `;
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
